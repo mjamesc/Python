@@ -1,0 +1,42 @@
+import boto3
+
+# replace the keys below
+
+dynamodb = boto3.resource(
+    'dynamodb',
+    aws_access_key_id='xxxxxxxxxxxx',
+    aws_secret_access_key='xxxxxxxxxxxxxxxx',
+    )
+    
+    
+    import boto3
+
+
+def write_videogame_table(description, system, genre, dynamodb = None):
+    if dynamodb is None:
+        dynamodb = boto3.resource('dynamodb')
+        
+    table = dynamodb.Table('food_table')
+    response = table.put_item(
+        Item = {
+            'description': description,  # partition key
+            'system': system,  # sort key 
+            'genre': genre, # some data
+        }
+    )
+    print(f"Creating item...")
+    return response
+
+
+if __name__ == '__main__':
+    videogame_table = write_food_table("World of Warcraft", "PC", "MMORPG")
+    videogame_table2 = write_food_table("Halo 2", "Xbox", "Shooter")
+    videogame_table3 = write_food_table("Gears of War", "Xbox 360", "3rd person shooter")
+    videogame_table4 = write_food_table("Mario Sunshine", "Gamecube", "Action-adventure")
+    videogame_table5 = write_food_table("Call of Duty Modern Warefare 2", "Xbox 360", "Shooter")
+    videogame_table6 = write_food_table("Crash Bandicoot", "Playstation", "Platformer")
+    videogame_table7 = write_food_table("Portal", "Xbox 360", "Puzzle")
+    videogame_table8 = write_food_table("Tekken", "Playstation", "Fighting")
+    videogame_table9 = write_food_table("Mass Effect", "Xbox 360", "RPG")
+    videogame_table10 = write_food_table("Counter Strike Source", "PC", "Shooter")
+    print(f"Items created")
