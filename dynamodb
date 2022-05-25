@@ -1,0 +1,33 @@
+import boto3
+
+
+def create_videogame_table(dynamodb = None):
+
+    if dynamodb is None:
+        dynamodb = boto3.resource('dynamodb')
+
+    table_name = 'videogame_table'
+    params = {
+        'TableName': table_name,
+        'KeySchema': [
+            {'AttributeName': 'system', 'KeyType': 'HASH'},
+            {'AttributeName': 'genre', 'KeyType': 'RANGE'}
+        ],
+        'AttributeDefinitions': [
+            {'AttributeName': 'system', 'AttributeType': 'S'},
+            {'AttributeName': 'genre', 'AttributeType': 'S'}
+        ],
+        'ProvisionedThroughput': {
+            'ReadCapacityUnits': 10,
+            'WriteCapacityUnits': 10
+        }
+    }
+    table = dynamodb.create_table(**params)
+    print(f"Creating {table_name}...")
+    table.wait_until_exists()
+    return table
+
+
+if __name__ == '__main__':
+    videogame_table = create_videogame_table()
+    print(f"Created table.")
